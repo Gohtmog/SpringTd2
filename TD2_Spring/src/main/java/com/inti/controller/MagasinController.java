@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,4 +59,22 @@ public class MagasinController {
 		}
 		return false;
 	}
+	@PutMapping("update/{id}")
+	public Magasin updateMAgasin(@RequestBody Magasin nouveauMagasin,@PathVariable int id) {
+		return imr.findById(id)
+				.map(magasin -> {
+					magasin.setNom(nouveauMagasin.getNom());
+					magasin.setAdresse(nouveauMagasin.getAdresse());
+					magasin.setCp(nouveauMagasin.getCp());
+					magasin.setVille(nouveauMagasin.getVille());
+					return imr.save(magasin);
+				})
+				.orElseGet(() -> {
+					return imr.save(nouveauMagasin);
+				});
+	}
+	
+	
+	
+	
 }

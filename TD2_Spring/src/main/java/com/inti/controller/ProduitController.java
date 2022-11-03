@@ -34,6 +34,7 @@ public class ProduitController {
 		return prixp;
 	}
 
+	
 	@PostMapping("/calcul")
 	public List<String> affichageCalculProduit(
 			@RequestParam(name = "nom", defaultValue = "Jesaispasencore", required = true) String nomp,

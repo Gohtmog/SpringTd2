@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class Produit {
 	
 	@Id
+	
 	@NonNull
 	private int id;
 	private String nom;
