@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inti.model.Magasin;
+import com.inti.model.Produit;
 import com.inti.repository.IMagasinRepository;
+import com.inti.repository.IproduitRepository;
 
 import lombok.extern.java.Log;
 
@@ -24,6 +27,10 @@ public class MagasinController {
 	@Autowired
 	IMagasinRepository imr;
 
+	@Autowired
+	IproduitRepository ipr;
+
+	
 	@GetMapping("magasins")
 	public List<Magasin> getMagasin() {
 		return imr.findAll();
@@ -53,10 +60,12 @@ public class MagasinController {
 
 	@DeleteMapping("deletePrduit/{id}")
 	public boolean deleteProduit(@PathVariable int id) {
-		if (id > 0) {
+		int maxID = imr.findMaxID();
+		if (id > 0 && id< maxID) {
 			imr.deleteById(id);
 			return true;
 		}
+		Log
 		return false;
 	}
 	@PutMapping("update/{id}")
@@ -74,7 +83,30 @@ public class MagasinController {
 				});
 	}
 	
-	
-	
+	@PostMapping("associerProduit/{id}")
+	public boolean associerProduitToMagasin(@PathVariable int id,Produit produit) {
+		try {
+		Magasin magasin = imr.findById(id).get();
+		
+		List<Produit> listeProduit = ipr.findAll();
+		listeProduit.add(produit);
+		
+		magasin.setListeProduit(listeProduit);
+		
+		imr.save(magasin);
+		return true;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			return false;
+	}
+	@GetMapping("byName/{nom}")
+	public Magasin getMagasinByNom(@PathVariable String nom) {
+		return imr.findByNom(nom);
+	}
+	@GetMapping("byCpAndVille")
+	public Magasin getMagasinByCpandVille(@RequestParam (name ="cp")  int cp,@RequestParam(name ="ville") String ville) {
+		return imr.findByCpAndVille(cp, ville);
+	}
 	
 }
