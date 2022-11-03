@@ -20,9 +20,12 @@ import com.inti.repository.IMagasinRepository;
 import com.inti.repository.IproduitRepository;
 
 import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("magasin")
+@Slf4j
 public class MagasinController {
 	@Autowired
 	IMagasinRepository imr;
@@ -58,14 +61,15 @@ public class MagasinController {
 		return m;
 	}
 
-	@DeleteMapping("deletePrduit/{id}")
-	public boolean deleteProduit(@PathVariable int id) {
+	@DeleteMapping("deleteMagasin/{id}")
+	public boolean deleteMagasin(@PathVariable int id) {
 		int maxID = imr.findMaxID();
 		if (id > 0 && id< maxID) {
 			imr.deleteById(id);
+			log.info("la fonction a marche");
 			return true;
 		}
-		Log
+		log.info("la fonction a rate");
 		return false;
 	}
 	@PutMapping("update/{id}")
@@ -107,6 +111,11 @@ public class MagasinController {
 	@GetMapping("byCpAndVille")
 	public Magasin getMagasinByCpandVille(@RequestParam (name ="cp")  int cp,@RequestParam(name ="ville") String ville) {
 		return imr.findByCpAndVille(cp, ville);
+	}
+	
+	@GetMapping("updateAdresseCp")
+	public void updateMagasinByAdresseAndCp(@RequestParam(name ="adresse") String adresse, @RequestParam (name ="cp")int cp, @RequestParam(name ="id") int id) {
+		 imr.updateAdressAndCpById(adresse, cp, id);
 	}
 	
 }

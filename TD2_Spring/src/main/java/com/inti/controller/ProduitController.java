@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inti.model.Produit;
 import com.inti.repository.IproduitRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("produit")
+@Slf4j
 public class ProduitController {
 	@Autowired
 	IproduitRepository ipr;
@@ -72,13 +75,14 @@ public class ProduitController {
 		}
 			return p;
 		}
-	@DeleteMapping ("deletePrduit/{id}")
-	public boolean deleteProduit(@PathVariable int id)
-	{
-		if(id >0) {
+	@DeleteMapping("deleteProduit/{id}")
+	public boolean deleteProduit(@PathVariable int id) {
+		if (id > 0 ) {
 			ipr.deleteById(id);
+			log.info("la fonction a marche");
 			return true;
 		}
+		log.info("la fonction a rate");
 		return false;
 	}
 	
