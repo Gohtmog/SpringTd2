@@ -18,22 +18,20 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "Produit_Spring")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Produit {
+@Data @NoArgsConstructor @AllArgsConstructor
+public class Magasin {
 	
 	@Id
 	@NonNull
 	private int id;
 	private String nom;
-	private String reference;
-	private double prix;
-	private double poids;
+	private String adresse;
+	private int cp;
+	private String ville;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "produit_magasin",
-		joinColumns = @JoinColumn (name= "idProduit"),
-		inverseJoinColumns = @JoinColumn(name = "idMagasin"))
-	private List<Magasin> listeMagasin;
-}
+		joinColumns = @JoinColumn(name = "idMagasin"),
+		inverseJoinColumns = @JoinColumn (name= "idProduit"))
+	private List<Produit> listeProduit;
+ }

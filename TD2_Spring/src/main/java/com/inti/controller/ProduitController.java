@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inti.model.Produit;
-import com.inti.repository.IProduitRepository;
+import com.inti.repository.IproduitRepository;
 
 @RestController
 @RequestMapping("produit")
 public class ProduitController {
 	@Autowired
-	IProduitRepository ipr;
+	IproduitRepository ipr;
 
 	@PostMapping("/affichageProduit")
 	public String affichageNomProduit(
@@ -61,7 +61,7 @@ public class ProduitController {
 
 	}
 	@GetMapping("produit/{id}")
-	public Produit geProduit(@PathVariable int id) {
+	public Produit getProduit(@PathVariable int id) {
 		Produit p;
 		try {
 		p = ipr.findById(id).get();
