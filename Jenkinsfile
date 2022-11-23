@@ -48,7 +48,7 @@ pipeline {
             echo "Echec"
             mail to: "enseignant.formateur@protonmail.com",
                 subject: "Echec pipeline : ${currentBuild.fullDisplayName}",
-                body: "Erreur dans le build : ${env.BUILD_URL}"
+               body: "Erreur dans le build : ${env.BUILD_URL}"
         }
     }
 }
